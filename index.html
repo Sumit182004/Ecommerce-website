@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Your Website Description">
+    <title>Fashion Website</title>
+    <link rel="stylesheet" type="text/css" href="fashion.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+
+    <!-- Top Bar -->
+    <div class="box1">
+        <ul>
+            <li><a href="#">USD</a> <i class='bx bx-chevron-down'></i></li>
+            <li><a href="#">English</a> <i class='bx bx-chevron-down'></i></li>
+            <li><a href="#">My Account</a> <i class='bx bx-chevron-down'></i></li>
+        </ul>
+        <h4>Free Shipping on All Orders</h4>
+    </div>
+
+    <!-- Navigation -->
+    <div class="subbox">
+        <ol>
+            <li><a href="clothes.html">Home</a></li>
+            <li><a href="#">Shop</a></li>
+            <li><a href="#">Promotion</a></li>
+            <li><a href="#">Pages</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Contact</a></li>
+        </ol>
+        <div class="icon">
+            <i class='bx bx-search' onclick="toggleSearch()"></i>
+            <input type="text" class="search-input" placeholder="Search" oninput="searchProducts(this.value)">
+            <i class="bx bxs-user"></i>
+            <div class="background" onclick="toggleCart()">
+                <i class='bx bxs-cart'></i>
+                <h3 id="cart-quantity">4</h3>
+            </div>
+            <h2>solo <font>Shop</font></h2>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="cover">
+        <img src="fashion2.jpg" alt="Fashion Image">
+        <div class="text">
+            <h1>Get up to 30% off new arrivals</h1>
+            <h4>Spring/summer collection 2023</h4>
+            <form action="addToCart2.html" method="get">
+                <input type="submit" value="shop Now" id="shopNowButton">
+            </form>
+        </div>
+    </div>
+
+    <!-- Product Images with Click Events -->
+    <div class="image22" onclick="redirectToPage('addToCart2.html')">
+        <img src="fashion3.jpg" width="300" height="300">
+        <h6>Men's</h6>
+    </div>
+    <div class="image23" onclick="redirectToPage('women.html')">
+        <img src="fashion4.jpg" width="300" height="300">
+        <h6> Women's</h6>
+    </div>
+    <div class="image24" onclick="redirectToPage('childrens.html')">
+        <img src="fashion6.jpg" width="300" height="300">
+        <h6> Children's</h6>
+    </div>
+
+    <div class="cart" id="cart">
+        <div class="listCart"></div>
+        <div class="buttons">
+            <div class="close" onclick="toggleCart()">CLOSE</div>
+            <div class="checkout">
+                <a href="checkout.html">CHECKOUT</a>
+            </div>
+        </div>
+    </div>
+    <div class="search-results" id="searchResults"></div>
+    <!-- JavaScript Functions -->
+    <script>
+        let listCart = [];
+        let products=[];
+ 
+        function searchProducts(query) {
+    let searchResultsContainer = document.getElementById('searchResults');
+    searchResultsContainer.innerHTML = ''; // Clear previous search results
+
+    if (query.trim() !== '') {
+        let matchingProducts = products.filter(product =>
+            product.name.toLowerCase().includes(query.toLowerCase())
+        );
+
+        if (matchingProducts.length > 0) {
+            matchingProducts.forEach(product => {
+                let resultItem = document.createElement('div');
+                resultItem.classList.add('search-result-item');
+                resultItem.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <div class="result-details">
+                        <h3>${product.name}</h3>
+                        <p>${product.description}</p>
+                        <button onclick="viewProductDetails(${product.id})">View Details</button>
+                    </div>
+                `;
+
+                searchResultsContainer.appendChild(resultItem);
+            });
+        } else {
+            let noResults = document.createElement('div');
+            noResults.textContent = 'No matching results';
+            searchResultsContainer.appendChild(noResults);
+        }
+    }
+}
+
+function viewProductDetails(productId) {
+    // Redirect to the product details page or perform other actions
+    console.log('View details for product with ID:', productId);
+    // Example: redirectToProductDetailsPage(productId);
+}
+
+function redirectToPage(page) {
+    window.location.href = page;
+}
+
+function toggleCart() {
+    let cart = document.getElementById('cart');
+    cart.classList.toggle('open');
+}
+        fetch('products.json')
+            .then(response => response.json())
+            .then(data => {
+                products = data;
+                addDataToHTML();
+            });
+
+
+            function addDataToHTML() {
+                let listProductHTML = document.querySelector('.listProduct');
+                listProductHTML.innerHTML = '';
+
+            if (products != null) {
+                products.forEach(product => {
+                    let newProduct = document.createElement('div');
+                    newProduct.classList.add('item');
+                    newProduct.innerHTML = `
+                    <img src="${product.image}">
+                    <h2>${product.name}</h2>
+                    <div class="price">${product.price}</div>
+                    <button onclick="addCart(${product.id})">Add To Cart</button>`;
+                    listProductHTML.appendChild(newProduct);
+                });
+            }
+        }
+
+        function checkCart() {
+            var cookieValue = document.cookie
+                .split(';')
+                .find(row => row.startsWith('listCart'));
+            if (cookieValue) {
+                listCart = JSON.parse(cookieValue.split('=')[1]);
+            }
+        }
+
+        checkCart();
+
+        function addCart($idProduct) {
+            let productCopy = JSON.parse(JSON.stringify(products));
+            if (!listCart[$idProduct]) {
+                let dataProduct = productCopy.filter(
+                    product => product.id == $idProduct
+                )[0];
+                listCart[$idProduct] = dataProduct;
+                listCart[$idProduct].quantity = 1;
+            } else {
+                listCart[$idProduct].quantity++;
+            }
+            let timesave = "expires=Thu, 31 Dec 2025 23:59:59 UTC";
+            document.cookie = 'listCart=' + JSON.stringify(listCart) + ';' + timesave + '; path=/;';
+            addCartToHTML();
+        }
+
+        function addCartToHTML() {
+            
+            let listCartHTML = document.querySelector('.listCart');
+            listCartHTML.innerHTML = '';
+
+            let totalHTML = document.querySelector('.totalQuantity');
+            let totalQuantity = 0;
+
+            if (listCart) {
+                listCart.forEach(product => {
+                    if (product) {
+                        let newCart = document.createElement('div');
+                        newCart.classList.add('item');
+                        newCart.innerHTML =
+                            `<img src="${product.image}">
+                            <div class="content">
+                                <div class="name">
+                                    ${product.name}
+                                </div>
+                                <div class="price">
+                                    ${product.price}
+                                </div>
+                            </div>
+                            <div class="quantity">
+                                <button onClick="changeQuantity(${product.id}, '-')">-</button>
+                                <span class="value">${product.quantity}</span>
+                                <button onClick="changeQuantity(${product.id}, '+')">+</button>
+                            </div>`;
+                        listCartHTML.appendChild(newCart);
+                        totalQuantity = totalQuantity + product.quantity;
+                    }
+                });
+            }
+
+            totalHTML.innerText = totalQuantity;
+        }
+
+        function changeQuantity($idProduct, $type) {
+            switch ($type) {
+                case '+':
+                    listCart[$idProduct].quantity++;
+                    break;
+                case '-':
+                    listCart[$idProduct].quantity--;
+                    if (listCart[$idProduct].quantity <= 0) {
+                        delete listCart[$idProduct];
+                    }
+                    break;
+                default:
+                    break;
+            }
+            let timesave = "expires=Thu, 31 Dec 2025 23:59:59 UTC";
+            document.cookie = 'listCart=' + JSON.stringify(listCart) + ';' + timesave + '; path=/;';
+            addCartToHTML();
+        }
+        function toggleSearch() {
+            let searchInput = document.querySelector('.search-input');
+            searchInput.style.display = (searchInput.style.display === 'block') ? 'none' : 'block';
+        }
+        
+    </script>
+
+</body>
+</html>

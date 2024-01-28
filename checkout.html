@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Document</title>
+    <style>
+        /* Your CSS styles go here */
+
+        .checkoutLayout {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 50px;
+            padding: 20px;
+        }
+
+        .checkoutLayout .right {
+            background-color: #5358b3;
+            border-radius: 20px;
+            padding: 40px;
+            color: #fff;
+        }
+
+        .checkoutLayout .list img {
+            height: 70px;
+        }
+
+        .checkoutLayout .right .form {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            border-bottom: 1px solid #7a7fe2;
+            padding-bottom: 20px;
+        }
+
+        .checkoutLayout .form .group:nth-child(-n+3) {
+            grid-column-start: 1;
+            grid-column-end: 3;
+        }
+
+        .checkoutLayout .form input,
+        .checkoutLayout .form select {
+            width: 100%;
+            padding: 10px 20px;
+            box-sizing: border-box;
+            border-radius: 20px;
+            margin-top: 10px;
+            border: none;
+            background-color: #6a6fc9;
+            color: #fff;
+        }
+
+        .checkoutLayout .row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .checkoutLayout .row div:nth-child(2) {
+            font-weight: bold;
+            font-size: x-large;
+        }
+
+        .buttonCheckout {
+            width: 100%;
+            height: 40px;
+            border: none;
+            border-radius: 20px;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #49d8b9;
+        }
+
+        .returnCart h1 {
+            border-top: 1px solid #eee;
+        }
+
+        .returnCart .list .item img {
+            height: 80px;
+        }
+
+        .returnCart .item {
+            display: grid;
+            grid-template-columns: 80px 1fr 50px 80px;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 0 10px;
+            box-shadow: 0 10px 20px #555;
+            border-radius: 20px;
+        }
+
+        .returnCart .item .name,
+        .returnCart .item .returnPrice {
+            font-size: x-large;
+            font-weight: bold;
+        }
+
+        .returnCart .quantity button {
+            background-color: #6a6fc9;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+
+        .returnCart .quantity .value {
+            margin: 0 10px;
+            font-size: large;
+        }
+        @media  only screen  and (max-width:455px){
+            .checkoutLayout {
+                display: grid;
+                gap: 20px;
+                padding: 20px;
+            }
+
+            .returnCart .item {
+                display: grid;
+                grid-template-columns: 60px 1fr 50px 60px;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 30px;
+                padding: 0 5px;
+            
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="checkoutLayout">
+            <div class="returnCart">
+                <a href="index.html">Keep shopping</a>
+                <h1>List Product In Cart</h1>
+                <div class="list">
+                    <div class="item">
+                        <img src="image1.png" alt="">
+                        <div class="info">
+                            <div class="name">Product 1</div>
+                            <div class="price">$22</div>
+                        </div>
+                        <div class="quantity">
+                            <button onclick="changeQuantity('decrement')">-</button>
+                            <span class="value">1</span>
+                            <button onclick="changeQuantity('increment')">+</button>
+                        </div>
+                        <div class="returnPrice">$50</div>
+                    </div>
+                </div>
+            </div>
+            <div class="right">
+                <h1>CHECKOUT</h1>
+                <div class="form">
+                    <div class="group">
+                        <label for="">Full name</label>
+                        <input type="text" name="" id="">
+                    </div>
+                    <div class="group">
+                        <label for="">phone Number</label>
+                        <input type="text" name="" id="">
+                    </div>
+                    <div class="group">
+                        <label for="">Address</label>
+                        <input type="text" name="" id="">
+                    </div>
+                    <div class="group">
+                        <label for="">country</label>
+                        <select name="" id="">
+                            <option value="">choose</option>
+                            <option value="london">london</option>
+                        </select>
+                    </div>
+                    <div class="group">
+                        <label for="">city</label>
+                        <select name="" id="">
+                            <option value="">choose</option>
+                            <option value="london">london</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="retrun">
+                    <div class="row">
+                        <div>Total Quantity</div>
+                        <div class="totalQuantity">60</div>
+                    </div>
+                    <div class="row">
+                        <div>Total Price</div>
+                        <div class="totalPrice">$60</div>
+                    </div>
+                </div>
+                <button class="buttonCheckout">
+                    CHECKOUT
+                </button>
+            </div>
+        </div>
+    </div>
+    <script>
+        let listCart = [];
+    
+        function checkCart() {
+            var cookieValue = document.cookie
+                .split(';')
+                .find(row => row.trim().startsWith('listCart='));
+            if (cookieValue) {
+                listCart = JSON.parse(cookieValue.split('=')[1]);
+            }
+            addCartToHTML();
+        }
+    
+        function addCartToHTML() {
+            let listCartHTML = document.querySelector('.returnCart .list');
+            listCartHTML.innerHTML = '';
+            let totalQuantityHTML = document.querySelector('.totalQuantity');
+            let totalPriceHTML = document.querySelector('.totalPrice');
+    
+            let totalQuantity = 0;
+            let totalPrice = 0;
+    
+            if (listCart) {
+                listCart.forEach(product => {
+                    if (product) {
+                        let newp = document.createElement('div');
+                        newp.classList.add('item');
+                        newp.innerHTML = `
+                            <img src="${product.image}" alt="">
+                            <div class="info">
+                                <div class="name">${product.name}</div>
+                                <div class="price">${product.price}</div>
+                            </div>
+                            <div class="quantity">
+                                <button onclick="changeQuantity('${product.id}', 'decrement')">-</button>
+                                <span class="value" data-product-id="${product.id}">${product.quantity}</span>
+                                <button onclick="changeQuantity('${product.id}', 'increment')">+</button>
+                            </div>
+                            <div class="returnPrice">${product.price * product.quantity}</div>`;
+                        listCartHTML.appendChild(newp);
+                        totalQuantity += product.quantity;
+                        totalPrice += product.price * product.quantity;
+                    }
+                });
+            }
+            totalQuantityHTML.innerText = totalQuantity;
+            totalPriceHTML.innerText = '$' + totalPrice;
+        }
+    
+        function changeQuantity(idProduct, type) {
+            switch (type) {
+                case 'increment':
+                    listCart[idProduct].quantity++;
+                    break;
+                case 'decrement':
+                    listCart[idProduct].quantity--;
+                    if (listCart[idProduct].quantity <= 0) {
+                        delete listCart[idProduct];
+                    }
+                    break;
+                default:
+                    break;
+            }
+            let timesave = "expires=Thu, 31 Dec 2025 23:59:59 UTC";
+            document.cookie = 'listCart=' + JSON.stringify(listCart) + ';' + timesave + '; path=/;';
+            addCartToHTML();
+        }
+    
+        checkCart(); // Call the function to initialize
+    </script>
+    
+    
+    
+    
+</body>
+</html>

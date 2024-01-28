@@ -1,0 +1,63 @@
+[
+    {
+        "id":1,
+        "name":"blue hoodie",
+        "price":400,
+        "image":"image2.png"
+    },
+    {
+        "id":2,
+        "name":"red hoodie",
+        "price":700,
+        "image":"image2.png"
+    },
+    {
+        "id":3,
+        "name":"green/red hoodie",
+        "price":500,
+        "image":"image3.png"
+    },
+    {
+        "id":4,
+        "name":"yellow hoodie",
+        "price":300,
+        "image":"image1.png"
+    },
+    {
+        "id":5,
+        "name":"white hoodie",
+        "price":200,
+        "image":"image2.png"
+    },
+    {
+        "id":6,
+        "name":"white hoodie",
+        "price":100,
+        "image":"image3.png"
+    },
+    {
+        "id":7,
+        "name":"white hoodie",
+        "price":700,
+        "image":"image1.png"
+    },
+    {
+        "id":8,
+        "name":"white hoodie",
+        "price":900,
+        "image":"image2.png"
+    },
+    {
+        "id":9,
+        "name":"white hoodie",
+        "price":800,
+        "image":"image3.png"
+    },
+    {
+        "id":10,
+        "name":"white hoodie",
+        "price":600,
+        "image":"image1.png"
+    }
+
+]

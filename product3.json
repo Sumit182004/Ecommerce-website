@@ -1,0 +1,60 @@
+[
+    {
+        "id":1,
+        "name":"white hoodie",
+        "price":200,
+        "image":"image1.png",
+        "description":"white hoodie  with furys white"
+    },
+    {
+        "id":2,
+        "name":"white hoodie",
+        "price":200,
+        "image":"image2.png",
+        "description":"white hoodie  with furys white"
+    },
+    {
+        "id":3,
+        "name":"white hoodie",
+        "price":200,
+        "image":"image3.png",
+        "description":"white hoodie  with furys white"
+    },
+    {
+        "id":4,
+        "name":"white hoodie",
+        "price":200,
+        "image":"image1.png",
+        "description":"white hoodie  with furys white"
+    },
+    {
+        "id":5,
+        "name":"white hoodie",
+        "price":200,
+        "image":"image2.png",
+        "description":"white hoodie  with furys white"
+    },
+    {
+        "id":6,
+        "name":"white hoodie",
+        "price":200,
+        "image":"image3.png",
+        "description":"white hoodie  with furys white"
+    },
+
+    {
+        "id":7,
+        "name":"white hoodie",
+        "price":200,
+        "image":"image1.png",
+        "description":"white hoodie  with furys white"
+    },
+    {
+        "id":8,
+        "name":"white hoodie",
+        "price":200,
+        "image":"image2.png",
+        "description":"white hoodie  with furys white"
+    }
+    
+]
